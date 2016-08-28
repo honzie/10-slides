@@ -1,0 +1,105 @@
+/*
+LAYOUT
+---- */
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+textarea {
+  flex-grow: 1;
+  align-self: center;
+}
+
+/*
+CHROME
+---- */
+body {
+  font-family: helvetica, sans-serif;
+}
+
+header h1,
+nav {
+  background: #f4f4f4;
+  border: 0 solid #ddd;
+}
+
+/* Controls */
+header h1 {
+  margin: 0;
+  padding: .5rem;
+  font-size: 2rem;
+  font-weight: 100;
+  background: #f4f4f4;
+  border-bottom-width: 1px;
+}
+
+/* Nav */
+nav {
+  order: 1;
+  border-top-width: 1px;
+}
+
+nav ul {
+  display: flex;
+  margin: .5rem;
+  justify-content: center;
+  list-style: none;
+}
+
+nav a {
+  display: block;
+  margin: 0 .25rem;
+  padding: 0 2rem;
+  line-height: 2rem;
+  text-decoration: none;
+  color: #fff;
+  background: #444;
+  border-radius: 3px;
+}
+
+nav li:first-of-type a {
+  background: #000;
+}
+
+/*
+EDIT INTERFACE
+---- */
+textarea {
+  width: 100%;
+  max-width: 48rem;
+  padding: 2.4rem;
+  font-family: inherit;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  border: 1px solid #f0f0f0;
+  border-width: 0 1px;
+  resize: none;
+  outline: none;
+}
+
+textarea:focus {
+  background: #fffff4;
+}
+
+/*
+PRESENT MODE
+---- */
+main {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  color: #fff;
+  background: #445;
+}
+
+/*
+PRESENT MODE
+---- */
+.u-visible {
+  visibility: visible;
+}
