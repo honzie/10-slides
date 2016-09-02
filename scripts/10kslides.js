@@ -6,8 +6,24 @@ let presentSection = document.querySelector('#present');
 
 /**
  * Builds a single slide from a set of lines, and returns the HTML.
+ *
+ * Here is the HTML structure:
+ * <section class="[title--main] or [title]">
+ *   <[h1] or [h2]>Title</[h*]>
+ *
+ *   [?title]
+ *     <p>Subtitle</p>
+ *   [/title]
+ *
+ *   [?lists]
+ *     <ul>
+ *       <li>Bullet point</li>
+ *       ...
+ *     </ul>
+ *   [/lists]
+ * </section>
  */
-let buildSlide = function (slideText) {
+let buildSlide = function (slideText, slideIndex) {
   let slideLines = slideText.split('\n');
   let slideHtml = document.createElement('section');
   let unorderdList;
@@ -18,7 +34,8 @@ let buildSlide = function (slideText) {
 
     // The first line becomes a header
     if (i === 0) {
-      let lineHtml = document.createElement('h1');
+      // `h1` for title slide, `h2` otherwise
+      let lineHtml = document.createElement(slideIndex === 0 ? 'h1' : 'h2');
 
       lineHtml.innerHTML = line;
       slideHtml.appendChild(lineHtml);
@@ -57,9 +74,9 @@ let buildSlide = function (slideText) {
     slideHtml.appendChild(unorderdList);
   }
 
-  // See if this is a title slide
+  // See if this is a main title or title slide
   if (!containsOrderdList && slideLines.length <= 2) {
-    slideHtml.classList.add('title');
+    slideHtml.classList.add(slideIndex === 0 ? 'title--main' : 'title');
   }
 
   return slideHtml;
@@ -74,7 +91,7 @@ let buildPresentation = function () {
   let presentationHolder = document.createElement('main');
 
   for (let i = 0; i < editorSlides.length; i++) {
-    presentationHolder.appendChild(buildSlide(editorSlides[i]));
+    presentationHolder.appendChild(buildSlide(editorSlides[i], i));
   }
 
   presentSection.innerHTML = presentationHolder.innerHTML;
