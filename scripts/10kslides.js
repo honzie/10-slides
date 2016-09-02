@@ -96,6 +96,55 @@ let buildPresentation = function () {
 
   presentSection.innerHTML = presentationHolder.innerHTML;
   presentSection.classList.add('u-visible');
+
+  presentSection.querySelector('section').classList.add('current');
 };
 
+/**
+ * Move from one slide to the next.
+ */
+let next = function () {
+  var currentSlide = presentSection.querySelector('.current');
+
+  if (currentSlide.nextSibling) {
+    currentSlide.classList.add('previous');
+    currentSlide.classList.remove('current');
+
+    currentSlide.nextSibling.classList.add('current');
+  }
+};
+
+/**
+ * Move from one slide to the previous.
+ */
+let previous = function () {
+  var currentSlide = presentSection.querySelector('.current');
+
+  if (currentSlide.previousSibling) {
+    currentSlide.classList.remove('current');
+
+    currentSlide.previousSibling.classList.add('current');
+
+    if (currentSlide.previousSibling.previousSibling) {
+      currentSlide.previousSibling.previousSibling.classList.add('previous');
+    } 
+  }
+};
+
+/**
+ * Escape out of the presentation.
+ */
+let leavePresentation = function () {
+  presentSection.innerHTML = '';
+  presentSection.classList.remove('u-visible');
+};
+
+/**
+ * Add handlers.
+ */
 presentButton.addEventListener('click', buildPresentation);
+
+
+document.addEventListener('onkeypress', function (event) {
+  console.log('event', event)
+})
