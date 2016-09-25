@@ -1,8 +1,8 @@
 'use strict';
 
-let presentButton = document.querySelector('#presentButton');
-let editText = document.querySelector('#edit');
-let presentSection = document.querySelector('#present');
+let presentButton = document.getElementById('presentButton');
+let editText = document.getElementById('edit');
+let presentSection = document.getElementById('present');
 
 /**
  * Builds a single slide from a set of lines, and returns the HTML.
