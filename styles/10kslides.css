@@ -116,6 +116,7 @@ section {
   line-height: 1.2;
   color: #fff;
   background: #445;
+  overflow: hidden;
 }
 
 section * {
@@ -133,20 +134,29 @@ section h1 {
 }
 
 /* Titles */
-.title,
-.title--main {
+.slide--centered {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
-.title p {
+.slide--centered h1 + p {
+  font-size: 2.8rem;
+}
+
+.slide--centered h2 + p {
   font-size: 2.4rem;
 }
 
-.title--main p {
-  font-size: 2.8rem;
+/* Full Bleed Images */
+.full-bleed {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
 }
 
 /* Present Transitions */

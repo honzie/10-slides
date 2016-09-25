@@ -5,6 +5,13 @@ let editText = document.getElementById('edit');
 let presentSection = document.getElementById('present');
 
 /**
+ * Determines if a line is a URL, which should be treated as an image.
+ */
+let isLineUrl = function (line) {
+  return line.indexOf('://') >= 0 && line.match(/\s/) === null;
+};
+
+/**
  * Builds a single slide from a set of lines, and returns the HTML.
  *
  * Here is the HTML structure:
@@ -27,18 +34,39 @@ let buildSlide = function (slideText, slideIndex) {
   let slideLines = slideText.split('\n');
   let slideHtml = document.createElement('section');
   let unorderdList;
-  let containsOrderdList = false;
+  let centerSlide = true;
 
   for (let i = 0; i < slideLines.length; i++) {
     let line = slideLines[i].trim();
 
     // The first line becomes a header
     if (i === 0) {
-      // `h1` for title slide, `h2` otherwise
-      let lineHtml = document.createElement(slideIndex === 0 ? 'h1' : 'h2');
+      // The first line is a special case.
+      if (isLineUrl(line)) {
+        // Case 1: The first line is a URL. If so, make this slide a full bleed image
+        // Add the URL as text to support cases where the image doesn't load
+        let lineHtml = document.createElement('p');
 
-      lineHtml.innerHTML = line;
-      slideHtml.appendChild(lineHtml);
+        lineHtml.innerHTML = 'Image: ' + line;
+        slideHtml.appendChild(lineHtml);
+
+        // Add the image as a full bleed background
+        let imageHtml = document.createElement('div');
+
+        imageHtml.classList.add('full-bleed');
+        imageHtml.style.backgroundImage = 'url(' + line + ')';
+        console.log('I', imageHtml)
+        console.log('I', imageHtml.style.backgroundImage)
+        console.log('I', line)
+
+        slideHtml.appendChild(imageHtml);
+      } else {
+        // Case 2: The first line is a header. `h1` for title slide, `h2` otherwise
+        let lineHtml = document.createElement(slideIndex === 0 ? 'h1' : 'h2');
+
+        lineHtml.innerHTML = line;
+        slideHtml.appendChild(lineHtml);
+      }
     } else {
       // There are two options here:
       // 1. The text is a bullet list: '-', '*', '- ', etc.
@@ -47,13 +75,13 @@ let buildSlide = function (slideText, slideIndex) {
         // Instantiate the unordered list, if it's not there
         if (!unorderdList) {
           unorderdList = document.createElement('ul');
-          containsOrderdList = true;
+          centerSlide = false;
         }
 
         let lineHtml = document.createElement('li');
 
-        lineHtml.innerHTML = line.slice(1).trim();
-        slideHtml.appendChild(lineHtml);
+        lineHtml.innerHTML = line.slice(1).trim(); // Extra trim is necessary because the line may have been '- ...' or '-...'.
+        unorderdList.appendChild(lineHtml);
       } else {
         // If we're in an unordered list, close it and add a paragraph
         if (unorderdList) {
@@ -75,8 +103,8 @@ let buildSlide = function (slideText, slideIndex) {
   }
 
   // See if this is a main title or title slide
-  if (!containsOrderdList && slideLines.length <= 2) {
-    slideHtml.classList.add(slideIndex === 0 ? 'title--main' : 'title');
+  if (centerSlide) {
+    slideHtml.classList.add('slide--centered');
   }
 
   return slideHtml;
@@ -104,7 +132,7 @@ let buildPresentation = function () {
  * Move from one slide to the next.
  */
 let next = function () {
-  var currentSlide = presentSection.querySelector('.current');
+  let currentSlide = presentSection.querySelector('.current');
 
   if (currentSlide.nextSibling) {
     currentSlide.classList.add('previous');
@@ -118,7 +146,7 @@ let next = function () {
  * Move from one slide to the previous.
  */
 let previous = function () {
-  var currentSlide = presentSection.querySelector('.current');
+  let currentSlide = presentSection.querySelector('.current');
 
   if (currentSlide.previousSibling) {
     currentSlide.classList.remove('current');
@@ -143,8 +171,10 @@ let leavePresentation = function () {
  * Add handlers.
  */
 presentButton.addEventListener('click', buildPresentation);
+presentSection.addEventListener('click', next);
 
 
 document.addEventListener('onkeypress', function (event) {
   console.log('event', event)
+  // TODO
 })
