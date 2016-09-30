@@ -8,7 +8,8 @@ let presentSection = document.getElementById('present');
  * Determines if a line is a URL, which should be treated as an image.
  */
 let isLineUrl = function (line) {
-  return line.indexOf('://') >= 0 && line.match(/\s/) === null;
+  let testUrl = line.split(' (')[0];
+  return testUrl.indexOf('://') >= 0 && testUrl.match(/\s/) === null;
 };
 
 /**
@@ -33,8 +34,29 @@ let isLineUrl = function (line) {
 let buildSlide = function (slideText, slideIndex) {
   let slideLines = slideText.split('\n');
   let slideHtml = document.createElement('section');
-  let unorderdList;
+  let galleryHtml;
+  let listHtml;
   let centerSlide = true;
+
+  /**
+   * Closes and appends a gallery.
+   */
+  let closeGallery = function () {
+    if (galleryHtml) {
+      slideHtml.appendChild(galleryHtml);
+      galleryHtml = undefined;
+    }
+  };
+
+  /**
+   * Closes and appends a list.
+   */
+  let closeList = function () {
+    if (listHtml) {
+      slideHtml.appendChild(listHtml);
+      listHtml = undefined;
+    }
+  };
 
   for (let i = 0; i < slideLines.length; i++) {
     let line = slideLines[i].trim();
@@ -43,64 +65,87 @@ let buildSlide = function (slideText, slideIndex) {
     if (i === 0) {
       // The first line is a special case.
       if (isLineUrl(line)) {
+        let lineParts = line.split(' (');
+        let url = lineParts[0];
+        let text = lineParts[1].slice(0, lineParts[1].length - 1);
+
         // Case 1: The first line is a URL. If so, make this slide a full bleed image
         // Add the URL as text to support cases where the image doesn't load
         let lineHtml = document.createElement('p');
 
-        lineHtml.innerHTML = 'Image: ' + line;
+        lineHtml.innerText = 'Image: ' + text;
         slideHtml.appendChild(lineHtml);
 
         // Add the image as a full bleed background
         let imageHtml = document.createElement('div');
 
         imageHtml.classList.add('full-bleed');
-        imageHtml.style.backgroundImage = 'url(' + line + ')';
-        console.log('I', imageHtml)
-        console.log('I', imageHtml.style.backgroundImage)
-        console.log('I', line)
+        imageHtml.style.backgroundImage = 'url(' + url + ')';
 
         slideHtml.appendChild(imageHtml);
       } else {
         // Case 2: The first line is a header. `h1` for title slide, `h2` otherwise
         let lineHtml = document.createElement(slideIndex === 0 ? 'h1' : 'h2');
 
-        lineHtml.innerHTML = line;
+        lineHtml.innerText = line;
         slideHtml.appendChild(lineHtml);
       }
     } else {
-      // There are two options here:
-      // 1. The text is a bullet list: '-', '*', '- ', etc.
-      // 2. The text is a paragraph
+      // For all other lines, there are several options:
+      // 1. The text is a bullet: '-', '*', '- ', etc.
+      // 2. The text is an image: and should be placed into a gallery
+      // 3. The text is a paragraph: and should be displayed unadorned
       if (line[0] === '-' || line[0] === '*') {
+        // Handle any lists galleries
+        closeGallery();
+
         // Instantiate the unordered list, if it's not there
-        if (!unorderdList) {
-          unorderdList = document.createElement('ul');
+        if (!listHtml) {
+          listHtml = document.createElement('ul');
           centerSlide = false;
         }
 
         let lineHtml = document.createElement('li');
 
-        lineHtml.innerHTML = line.slice(1).trim(); // Extra trim is necessary because the line may have been '- ...' or '-...'.
-        unorderdList.appendChild(lineHtml);
-      } else {
-        // If we're in an unordered list, close it and add a paragraph
-        if (unorderdList) {
-          slideHtml.appendChild(unorderdList);
-          unorderdList = undefined;
+        lineHtml.innerText = line.slice(1).trim(); // Extra trim is necessary because the line may have been '- ...' or '-...'.
+        listHtml.appendChild(lineHtml);
+      } else if (isLineUrl(line)) {
+        // Handle any lists
+        closeList();
+
+        // Instantiate the unordered list, if it's not there
+        if (!galleryHtml) {
+          galleryHtml = document.createElement('ul');
+          galleryHtml.classList.add('gallery');
+          centerSlide = false;
         }
+
+        // Add the image as a full bleed background
+        let lineParts = line.split(' (');
+        let imageHtml = new Image();
+        imageHtml.src = lineParts[0];
+        imageHtml.alt = lineParts[1].slice(0, lineParts[1].length - 1);
+
+        let lineHtml = document.createElement('li');
+        lineHtml.appendChild(imageHtml);
+
+        galleryHtml.appendChild(lineHtml);
+      } else {
+        // Handle any lists and galleries
+        closeList();
+        closeGallery();
 
         let lineHtml = document.createElement('p');
 
-        lineHtml.innerHTML = line;
+        lineHtml.innerText = line;
         slideHtml.appendChild(lineHtml);
       }
     }
   }
 
-  // If there's a hanging unordered list, append it
-  if (unorderdList) {
-    slideHtml.appendChild(unorderdList);
-  }
+  // Handle any lists and galleries
+  closeList();
+  closeGallery();
 
   // See if this is a main title or title slide
   if (centerSlide) {
