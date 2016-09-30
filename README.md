@@ -7,7 +7,7 @@ npm install uglify-js-harmony -g
 npm install clean-css -g
 ```
 
-## Compiling files
+## Minify files
 
 ```
 uglifyjs --mangle --output 10s.js -- scripts/10kslides.js

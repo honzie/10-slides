@@ -100,6 +100,12 @@ main {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+main:target {
+  visibility: visible;
 }
 
 /*
@@ -107,6 +113,10 @@ PRESENT MODE
 ---- */
 
 /* Slides */
+main {
+  background: #445;
+}
+
 section {
   position: absolute;
   width: 100vw;
@@ -115,7 +125,6 @@ section {
   font-size: 2rem;
   line-height: 1.2;
   color: #fff;
-  background: #445;
   overflow: hidden;
   word-break: break-word;
 }
@@ -190,16 +199,26 @@ section h1 {
 
 /* Present Transitions */
 section {
+  opacity: 0;
+}
+
+.current {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+/*
+section {
   transform: translate3d(100%, 0, 0);
 }
 
 .current {
   transform: translate3d(0, 0, 0);
+  transition: transform 1s ease-in-out;
 }
 
-/*
-UTILITIES
----- */
-.u-visible {
-  visibility: visible;
+.previous {
+  transform: translate3d(-100%, 0, 0);
+  transition: transform 1s ease-in-out;
 }
+*/

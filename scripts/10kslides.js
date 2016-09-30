@@ -186,11 +186,14 @@
   let next = function () {
     let currentSlide = presentSection.querySelector('.current');
 
-    if (currentSlide.nextSibling) {
-      currentSlide.classList.add('previous');
+    if (currentSlide) {
       currentSlide.classList.remove('current');
 
-      currentSlide.nextSibling.classList.add('current');
+      if (currentSlide.nextSibling) {
+        currentSlide.nextSibling.classList.add('current');
+      } else {
+        leavePresentation();
+      }
     }
   };
 
@@ -200,14 +203,9 @@
   let previous = function () {
     let currentSlide = presentSection.querySelector('.current');
 
-    if (currentSlide.previousSibling) {
+    if (currentSlide && currentSlide.previousSibling) {
       currentSlide.classList.remove('current');
-
       currentSlide.previousSibling.classList.add('current');
-
-      if (currentSlide.previousSibling.previousSibling) {
-        currentSlide.previousSibling.previousSibling.classList.add('previous');
-      } 
     }
   };
 
@@ -215,9 +213,11 @@
    * Escape out of the presentation.
    */
   let leavePresentation = function () {
-    presentSection.innerHTML = '';
-    presentSection.classList.remove('u-visible');
+    window.location.hash = '';  
   };
+
+  // Build the slideshow by default, so you can go back into it
+  buildPresentation();
 
   /**
    * Add handlers.
