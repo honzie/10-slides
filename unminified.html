@@ -12,9 +12,9 @@
     </header>
 
     <nav>
-      <ul>
-        <li><a href="#present" id="presentButton">Present</a></li>
-        <li><a href="/unminified-help.html">Help</a></li>
+      <ul class="controls">
+        <li><a class="control control--primary" href="#present" id="presentButton">Present</a></li>
+        <li><a class="control" href="/unminified-help.html">Help</a></li>
       </ul>
     </nav>
 
@@ -43,6 +43,21 @@ Features
 
     <main id="present">
     </main>
+
+    <div class="drop" id="modal">
+      <aside>
+        <h1>Found Saved Slideshow</h1>
+        <p>Would you like to load the slideshow from memory?</p>
+        <ul class="controls">
+          <li>
+            <button class="control control--primary" id="load">Yes</button>
+          </li>
+          <li>
+            <button class="control" id="discard">No</button>
+          </li>
+        </ul>
+      </aside>
+    </div>
 
     <script src="scripts/10kslides.js"></script>
   </body>

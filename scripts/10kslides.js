@@ -4,6 +4,9 @@
   let presentButton = document.getElementById('presentButton');
   let editText = document.getElementById('edit');
   let presentSection = document.getElementById('present');
+  let modal = document.getElementById('modal');
+  let load = document.getElementById('load');
+  let discard = document.getElementById('discard');
 
   /**
    * Determines if a line is a URL, which should be treated as an image.
@@ -186,8 +189,6 @@
     presentationHolder.appendChild(endSlideHtml);
 
     presentSection.innerHTML = presentationHolder.innerHTML;
-    presentSection.classList.add('u-visible');
-
     presentSection.querySelector('section').classList.add('current');
   };
 
@@ -250,8 +251,32 @@
     }
   });
 
+  /**
+   * Handle autosave
+   */
+  // See if there is something in localstorage
+  try {
+    let hideModal = function (load) {
+      return function () {
+        modal.classList.remove('u-visible');
+
+        if (load) {
+          editText.value = window.localStorage.slideshow;
+        }
+      }
+    };
+
+    if (window.localStorage.slideshow) {
+      modal.classList.add('u-visible');
+      load.addEventListener('click', hideModal(true));
+      discard.addEventListener('click', hideModal());
+    }
+  } catch (error) {}
+
+  // Save the text to local storage
   editText.addEventListener('input', function (event) {
-    // Save the text to local storage
-    window.localStorage.slideshow = editText.value;
+    try {
+      window.localStorage.slideshow = editText.value;
+    } catch (error) {}
   });
 })();

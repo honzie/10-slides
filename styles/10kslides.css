@@ -61,14 +61,14 @@ nav {
   border-top-width: 1px;
 }
 
-nav ul {
+.controls {
   display: flex;
   margin: .5rem;
   justify-content: center;
   list-style: none;
 }
 
-nav a {
+.control {
   display: block;
   margin: 0 .25rem;
   padding: 0 2rem;
@@ -79,25 +79,25 @@ nav a {
   border-radius: 3px;
 }
 
-nav a:hover,
-nav a:focus {
+.control:hover,
+.control:focus {
   background: #555;
 }
 
-nav a:active {
+.control:active {
   background: #666;
 }
 
-nav li:first-of-type a {
+.control--primary {
   background: #006;
 }
 
-nav li:first-of-type a:hover,
-nav li:first-of-type a:focus {
+.control--primary:hover,
+.control--primary:focus {
   background: #008;
 }
 
-nav li:first-of-type a:active {
+.control--primary a:active {
   background: #009;
 }
 
@@ -241,4 +241,37 @@ section {
 .current {
   opacity: 1;
   transition: opacity 400ms ease-in-out;
+}
+
+/* Autosave */
+.drop {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 15, .6);
+}
+
+aside {
+  max-width: 24rem;
+  padding: 2.4rem 2.4rem 1.9rem;
+  background: #fff;
+  border: 1px solid #666;
+}
+
+aside button {
+  border: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Utilities */
+.u-visible {
+  visibility: visible;
 }
