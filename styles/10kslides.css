@@ -15,34 +15,49 @@ body {
   flex-direction: column;
   margin: 0;
   height: 100vh;
-}
-
-textarea {
-  flex-grow: 1;
-  align-self: center;
+  color: #111;
+  font-family: helvetica, arial, sans-serif;
+  background: #fdfdfd;
 }
 
 /*
 CHROME
 ---- */
-body {
-  font-family: helvetica, sans-serif;
-}
-
-header h1,
+header,
 nav {
-  background: #f4f4f4;
+  background: #f4f0f0;
   border: 0 solid #ddd;
 }
 
-/* Controls */
+header {
+  position: absolute;
+  width: 100%;
+  height: 4rem;
+  border-bottom-width: 1px;
+  transform: rotate(-2deg);
+  transform-origin: 0 0;
+  white-space: nowrap;
+}
+
 header h1 {
-  margin: 0;
-  padding: .5rem;
+  max-width: 43.2rem; /* 48rem - 2.4rem * 2 */
+  margin: 0 auto;
+  padding: 1rem 0;
   font-size: 2rem;
   font-weight: 100;
-  background: #f4f4f4;
-  border-bottom-width: 1px;
+  transform: rotate(2deg);
+  transform-origin: 0 0;
+}
+
+header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+header span {
+  padding-left: 20px;
+  font-size: .8em;
+  color: #444;
 }
 
 /* Nav */
@@ -69,21 +84,41 @@ nav a {
   border-radius: 3px;
 }
 
+nav a:hover,
+nav a:focus {
+  background: #555;
+}
+
+nav a:active {
+  background: #666;
+}
+
 nav li:first-of-type a {
-  background: #000;
+  background: #006;
+}
+
+nav li:first-of-type a:hover,
+nav li:first-of-type a:focus {
+  background: #008;
+}
+
+nav li:first-of-type a:active {
+  background: #009;
 }
 
 /*
 EDIT INTERFACE
 ---- */
 textarea {
+  flex-grow: 1;
+  align-self: center;
   width: 100%;
   max-width: 48rem;
-  padding: 2.4rem;
+  padding: 4.8rem 2.4rem 2.4rem;
   font-family: inherit;
   font-size: 1.2rem;
   line-height: 1.8;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #f4f4f4;
   border-width: 0 1px;
   resize: none;
   outline: none;
