@@ -20,7 +20,7 @@
    * Builds a single slide from a set of lines, and returns the HTML.
    *
    * Here is the HTML structure:
-   * <section class="[title--main] or [title]">
+   * <section>
    *   <[h1] or [h2]>Title</[h*]>
    *
    *   [?title]
