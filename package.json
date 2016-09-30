@@ -8,6 +8,7 @@
   },
   "author": "Hans Sprecher",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "compression": "^1.6.1",
     "express": "^4.12.3"
   }

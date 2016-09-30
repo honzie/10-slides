@@ -7,21 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes">
   </head>
   <body>
-    <header>
-      <h1>
-        <a href="/">10k Slides</a>
-        <span>Help</span>
-      </h1>
-    </header>
+    <form action="/present#s0" method="post">
+      <header>
+        <h1>
+          <a href="/">10k Slides</a>
+          <span>Help</span>
+        </h1>
+      </header>
 
-    <nav>
-      <ul class="controls">
-        <li><a class="control control--primary" href="#present" id="presentButton">Present</a></li>
-        <li><a class="control" href="/unminified.html">Editor</a></li>
-      </ul>
-    </nav>
+      <nav>
+        <ul class="controls">
+          <li><button type="submit" class="control control--primary" id="presentButton">Present</button></li>
+          <li><a class="control" href="/unminified.html">Editor</a></li>
+        </ul>
+      </nav>
 
-    <textarea disabled>
+      <textarea id="edit" contenteditable="false" name="editorText">
 10k Slides
 
 Help
@@ -49,22 +50,22 @@ List Title
 Intermixed Items
 - Item 1
 - Item 2
-http://localhost:8000/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
 - Item 3
 - Item 4
 
 Full bleed images
 
-http://url-to-image/image.png (Parentheses denote alternate text. If the image doesn't load, the alternate text displays.)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (Parentheses denote alternate text. If the image doesn't load, the alternate text displays.)
 
 Galleries
 
 Gallery Title
-http://localhost:8000/star.svg (A star)
-http://localhost:8000/star.svg (A star)
-http://localhost:8000/star.svg (A star)
-http://localhost:8000/star.svg (A star)
-http://localhost:8000/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
 
 Code Snippets
 
@@ -73,7 +74,8 @@ Slide Title
   let doubleThings = function (thing) {
     return thing + thing;
   };
-</textarea>
+      </textarea>
+    </form>
 
     <main id="present">
     </main>

@@ -7,18 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes">
   </head>
   <body>
-    <header>
-      <h1>10k Slides</h1>
-    </header>
+    <form action="/present#s0" method="post">
+      <header>
+        <h1>10k Slides</h1>
+      </header>
 
-    <nav>
-      <ul class="controls">
-        <li><a class="control control--primary" href="#present" id="presentButton">Present</a></li>
-        <li><a class="control" href="/unminified-help.html">Help</a></li>
-      </ul>
-    </nav>
+      <nav>
+        <ul class="controls">
+          <li><button type="submit" class="control control--primary" id="presentButton">Present</button></li>
+          <li><a class="control" href="/unminified-help.html">Help</a></li>
+        </ul>
+      </nav>
 
-    <textarea id="edit">
+    <textarea id="edit" name="editorText" class="autosave">
 10k Slides
 Minimal Presentations
 
@@ -40,6 +41,7 @@ Features
 - Autosave to offline storage
 - Works without JavaScript
 </textarea>
+    </form>
 
     <main id="present">
     </main>

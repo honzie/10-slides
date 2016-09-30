@@ -173,7 +173,12 @@
   /**
    * Builds and displays the presentation based on editor text.
    */
-  let buildPresentation = function () {
+  let buildPresentation = function (event) {
+    if (event) {
+      event.preventDefault();
+      window.location.hash = 'present';
+    }
+
     let editorText = editText.value;
     let editorSlides = editorText.split('\n\n');
     let presentationHolder = document.createElement('main');
@@ -261,7 +266,9 @@
         modal.classList.remove('u-visible');
 
         if (load) {
-          editText.value = window.localStorage.slideshow;
+          editText.value = localStorage.getItem('slideshow');;
+        } else {
+          localStorage.removeItem('slideshow');
         }
       }
     };
@@ -275,8 +282,10 @@
 
   // Save the text to local storage
   editText.addEventListener('input', function (event) {
-    try {
-      window.localStorage.slideshow = editText.value;
-    } catch (error) {}
+    if (event.target.classList.contains('autosave')) {
+      try {
+        localStorage.setItem('slideshow', editText.value);
+      } catch (error) {}
+    }
   });
 })();

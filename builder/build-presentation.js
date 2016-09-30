@@ -5,12 +5,13 @@ let buildPresentation = function (editorText) {
   let builtHtml = '';
 
   // Build each slide
-  for (let i = 0; i < editorSlides.length; i++) {
+  let i;
+  for (i = 0; i < editorSlides.length; i++) {
     builtHtml += buildSlide(editorSlides[i], i);
   }
 
   // Add a blank end slide
-  builtHtml += '<a href="/"><section class="slide--end"></section></a>';
+  builtHtml += '<a href="/"><section id="s' + i + '" class="slide--end"></section></a>';
 
   return builtHtml;
 };

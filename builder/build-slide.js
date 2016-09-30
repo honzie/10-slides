@@ -5,7 +5,7 @@ let isLineUrl = function (line) {
 
 let buildSlide = function (slideText, slideIndex) {
   let slideLines = slideText.split('\n');
-  let slideHtml = document.createElement('section');
+  let slideHtml = '';
   let galleryHtml;
   let listHtml;
   let codeHtml;
@@ -17,19 +17,19 @@ let buildSlide = function (slideText, slideIndex) {
   let closeBlocks = function (exception) {
     // Lists (set exception to 'list')
     if (listHtml && exception !== 'list') {
-      slideHtml.appendChild(listHtml);
+      slideHtml += listHtml + '</ul>';
       listHtml = undefined;
     }
 
     // Galleries (set exception to 'gallery')
     if (galleryHtml && exception !== 'gallery') {
-      slideHtml.appendChild(galleryHtml);
+      slideHtml += galleryHtml + '</ul>';
       galleryHtml = undefined;
     }
 
     // Code (set exception to 'code')
     if (codeHtml && exception !== 'code') {
-      slideHtml.appendChild(codeHtml);
+      slideHtml += codeHtml + '</pre>';
       codeHtml = undefined;
     }
   };
@@ -44,24 +44,17 @@ let buildSlide = function (slideText, slideIndex) {
         // Case 1: The first line is a URL. If so, make this slide a full bleed image
         // Add the URL as text to support cases where the image doesn't load
         let lineParts = line.split(' (');
-        let lineHtml = document.createElement('p');
-
-        lineHtml.innerText = lineParts[1].slice(0, lineParts[1].length - 1);
-        slideHtml.appendChild(lineHtml);
+        slideHtml += '<p>' + lineParts[1].slice(0, lineParts[1].length - 1) + '</p>';
 
         // Add the image as a full bleed background
-        let imageHtml = document.createElement('div');
-
-        imageHtml.classList.add('full-bleed');
-        imageHtml.style.backgroundImage = 'url(' + lineParts[0] + ')';
-
-        slideHtml.appendChild(imageHtml);
+        slideHtml += '<div class="full-bleed" style="background-image:url(' + lineParts[0] + '"></div>';
       } else {
         // Case 2: The first line is a header. `h1` for title slide, `h2` otherwise
-        let lineHtml = document.createElement(slideIndex === 0 ? 'h1' : 'h2');
-
-        lineHtml.innerText = line;
-        slideHtml.appendChild(lineHtml);
+        if (slideIndex === 0) {
+          slideHtml += '<h1>' + line + '</h1>';
+        } else {
+          slideHtml += '<h2>' + line + '</h2>';
+        }
       }
     } else {
       // For all other lines, there are several options:
@@ -74,43 +67,32 @@ let buildSlide = function (slideText, slideIndex) {
 
         // Instantiate the unordered list, if it's not there
         if (!listHtml) {
-          listHtml = document.createElement('ul');
+          listHtml = '<ul>';
           centerSlide = false;
         }
 
-        let lineHtml = document.createElement('li');
-
-        lineHtml.innerText = line.slice(1).trim(); // Extra trim is necessary because the line may have been '- ...' or '-...'.
-        listHtml.appendChild(lineHtml);
+        listHtml += '<li>' + line.slice(1).trim() + '</li>';
       } else if (isLineUrl(line)) {
         closeBlocks('gallery');
 
         // Instantiate the unordered list, if it's not there
         if (!galleryHtml) {
-          galleryHtml = document.createElement('ul');
-          galleryHtml.classList.add('gallery');
+          galleryHtml = '<ul class="gallery">';
           centerSlide = false;
         }
 
-        // Add the image as a full bleed background
+        // Add the image to the gallery
         let lineParts = line.split(' (');
-        let imageHtml = new Image();
-        imageHtml.src = lineParts[0];
-        imageHtml.alt = lineParts[1].slice(0, lineParts[1].length - 1);
-
-        let lineHtml = document.createElement('li');
-        lineHtml.appendChild(imageHtml);
-
-        galleryHtml.appendChild(lineHtml);
+        galleryHtml += '<li><img src="' + lineParts[0] + '" alt="' + lineParts[1].slice(0, lineParts[1].length - 1) + '"></li>'
       } else if (slideLines[i].indexOf('  ') === 0) {
         closeBlocks('code');
 
         if (!codeHtml) {
-          codeHtml = document.createElement('pre');
+          codeHtml = '<pre>';
           centerSlide = false;
         }
 
-        codeHtml.innerText += slideLines[i].slice(2) + '\n';
+        codeHtml += slideLines[i].slice(2) + '\n';
       } else {
         closeBlocks();
 
@@ -119,10 +101,7 @@ let buildSlide = function (slideText, slideIndex) {
           centerSlide = false;
         }
 
-        let lineHtml = document.createElement('p');
-
-        lineHtml.innerText = line;
-        slideHtml.appendChild(lineHtml);
+        slideHtml += '<p>' + line + '</p>';
       }
     }
   }
@@ -130,10 +109,15 @@ let buildSlide = function (slideText, slideIndex) {
   // Handle any open lists or blocks
   closeBlocks();
 
-  // See if this is a main title or title slide
+  // Build beginning tag
+  let anchorTag = '<a href="#s' + (slideIndex + 1) + '">';
+  let beginningTag = '<section id="s' + slideIndex + '">';
+
   if (centerSlide) {
-    slideHtml.classList.add('slide--centered');
+    beginningTag = '<section class="slide--centered" id="s' + slideIndex + '">';
   }
+
+  slideHtml = anchorTag + beginningTag + slideHtml + '</section></a>';
 
   return slideHtml;
 };

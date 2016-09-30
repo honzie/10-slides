@@ -11,13 +11,16 @@ RESET
 LAYOUT
 ---- */
 body {
-  display: flex;
-  flex-direction: column;
   margin: 0;
-  height: 100vh;
   color: #111;
   font-family: helvetica, arial, sans-serif;
   background: #fdfdfd;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 /*
@@ -158,6 +161,7 @@ section {
   color: #fff;
   overflow: hidden;
   word-break: break-word;
+  background: #445;
 }
 
 section * {
@@ -236,11 +240,14 @@ pre {
 /* Present Transitions */
 section {
   opacity: 0;
+  pointer-events: none;
 }
 
-.current {
+.current,
+section:target {
   opacity: 1;
   transition: opacity 400ms ease-in-out;
+  pointer-events: auto;
 }
 
 /* Autosave */
@@ -264,7 +271,7 @@ aside {
   border: 1px solid #666;
 }
 
-aside button {
+button {
   border: 0;
   font-size: 1rem;
   cursor: pointer;
