@@ -17,6 +17,24 @@ body {
   background: #fdfdfd;
 }
 
+@media (max-width: 580px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  html {
+    font-size: 12px;
+  }
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -40,9 +58,9 @@ header {
 }
 
 header h1 {
-  max-width: 43.2rem; /* 48rem - 2.4rem * 2 */
+  max-width: 48rem;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 1rem 2.4rem;
   font-size: 2rem;
   font-weight: 100;
 }
