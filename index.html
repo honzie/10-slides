@@ -1,33 +1,25 @@
-<!DOCTYPE>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>10k Slides</title>
-    <link rel="stylesheet" href="styles/10kslides.css">
-  </head>
-  <body>
-    <header>
-      <h1>10k Slides</h1>
-    </header>
+<!DOCTYPE html><html><head><meta charset="utf-8"/><title>10k Slides</title><link rel="stylesheet" href="styles/10kslides.css"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes"/></head><body><form action="/present#s0" method="post"><header><h1>10k Slides</h1></header><nav><ul class="controls"><li><button type="submit" class="control control--primary" id="presentButton">Present</button></li><li><a class="control" href="/unminified-help.html">Help</a></li></ul></nav><textarea id="edit" name="editorText" class="autosave">
+10k Slides
+Minimal Presentations
 
-    <nav>
-      <ul>
-        <li><a href="#edit">Edit</a></li>
-        <li><a href="#present" id="presentButton">Present</a></li>
-      </ul>
-    </nav>
+Get Started
+- Create your slideshow by editing this text
+- Use the 'Present' button to start the show
+- Visit the help section to use different slide types
 
-    <textarea id="edit">
-Foo
-Bar
+Slide Types
+- Titles
+- Texts and Lists
+- Full bleed images
+- Galleries
+- Code snippets
 
-Slide two
--List
-- List</textarea>
+Features
+- Simple authoring
+- Keyboard and mouse navigation
+- Autosave to offline storage
+- Works without JavaScript
+</textarea>
+    </form>
 
-    <main id="present">
-    </main>
-
-    <script src="scripts/10kslides.js"></script>
-  </body>
-</html>
+    <main id="present"></main><div class="drop" id="modal"><aside><h1>Found Saved Slideshow</h1><p>Would you like to load the slideshow from memory?</p><ul class="controls"><li><button class="control control--primary" id="load">Yes</button></li><li><button class="control" id="discard">No</button></li></ul></aside></div><script src="scripts/10kslides.js"></script></body></html>

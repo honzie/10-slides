@@ -1,38 +1,61 @@
 /*
+RESET
+---- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*
 LAYOUT
 ---- */
 body {
-  display: flex;
-  flex-direction: column;
   margin: 0;
+  color: #111;
+  font-family: helvetica, arial, sans-serif;
+  background: #fdfdfd;
 }
 
-textarea {
-  flex-grow: 1;
-  align-self: center;
+form {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 /*
 CHROME
 ---- */
-body {
-  font-family: helvetica, sans-serif;
-}
-
-header h1,
+header,
 nav {
-  background: #f4f4f4;
+  background: #f4f0f0;
   border: 0 solid #ddd;
 }
 
-/* Controls */
+header {
+  width: 100%;
+  height: 4rem;
+  border-bottom-width: 1px;
+  white-space: nowrap;
+}
+
 header h1 {
-  margin: 0;
-  padding: .5rem;
+  max-width: 43.2rem; /* 48rem - 2.4rem * 2 */
+  margin: 0 auto;
+  padding: 1rem 0;
   font-size: 2rem;
   font-weight: 100;
-  background: #f4f4f4;
-  border-bottom-width: 1px;
+}
+
+header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+header span {
+  padding-left: 20px;
+  font-size: .8em;
+  color: #444;
 }
 
 /* Nav */
@@ -41,14 +64,14 @@ nav {
   border-top-width: 1px;
 }
 
-nav ul {
+.controls {
   display: flex;
   margin: .5rem;
   justify-content: center;
   list-style: none;
 }
 
-nav a {
+.control {
   display: block;
   margin: 0 .25rem;
   padding: 0 2rem;
@@ -59,21 +82,41 @@ nav a {
   border-radius: 3px;
 }
 
-nav li:first-of-type a {
-  background: #000;
+.control:hover,
+.control:focus {
+  background: #555;
+}
+
+.control:active {
+  background: #666;
+}
+
+.control--primary {
+  background: #006;
+}
+
+.control--primary:hover,
+.control--primary:focus {
+  background: #008;
+}
+
+.control--primary a:active {
+  background: #009;
 }
 
 /*
 EDIT INTERFACE
 ---- */
 textarea {
+  flex-grow: 1;
+  align-self: center;
   width: 100%;
   max-width: 48rem;
   padding: 2.4rem;
   font-family: inherit;
   font-size: 1.2rem;
   line-height: 1.8;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #f4f4f4;
   border-width: 0 1px;
   resize: none;
   outline: none;
@@ -93,13 +136,149 @@ main {
   left: 0;
   width: 100%;
   height: 100vh;
-  color: #fff;
-  background: #445;
+}
+
+main:target {
+  visibility: visible;
 }
 
 /*
 PRESENT MODE
 ---- */
+
+/* Slides */
+main {
+  background: #445;
+}
+
+section {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  padding: 4.2rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  color: #fff;
+  overflow: hidden;
+  word-break: break-word;
+  background: #445;
+}
+
+section * {
+  padding-bottom: 1rem;
+  font-weight: 100;
+}
+
+section h1,
+section h2 {
+  font-size: 3.4rem;
+  text-align: center;
+}
+
+section h1 {
+  font-size: 4.2rem;
+}
+
+/* Titles */
+.slide--centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.slide--centered h1 + p {
+  font-size: 2.8rem;
+}
+
+.slide--centered h2 + p {
+  font-size: 2.4rem;
+}
+
+/* Code */
+pre {
+  color: #af6;
+}
+
+/* Full Bleed Images */
+.full-bleed {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: center;
+  background-size: cover;
+}
+
+/* Image Galleries */
+.gallery {
+  display: flex;
+  margin: 0 -2.1rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  list-style: none;
+}
+
+.gallery li {
+  padding: .1rem;
+  max-width: 33%;
+}
+
+.gallery img {
+  display: block;
+  padding: 0;
+  max-width: 100%;
+  max-height: 25vh;
+}
+
+/* End Slide */
+.slide--end {
+  background: #000;
+}
+
+/* Present Transitions */
+section {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.current,
+section:target {
+  opacity: 1;
+  transition: opacity 400ms ease-in-out;
+  pointer-events: auto;
+}
+
+/* Autosave */
+.drop {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 15, .6);
+}
+
+aside {
+  max-width: 24rem;
+  padding: 2.4rem 2.4rem 1.9rem;
+  background: #fff;
+  border: 1px solid #666;
+}
+
+button {
+  border: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Utilities */
 .u-visible {
   visibility: visible;
 }

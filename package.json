@@ -1,0 +1,15 @@
+{
+  "name": "10-slides",
+  "version": "1.0.0",
+  "description": "A very small slideshow library",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --harmony app.js"
+  },
+  "author": "Hans Sprecher",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.1",
+    "express": "^4.12.3"
+  }
+}

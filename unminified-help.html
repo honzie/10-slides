@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Help | 10k Slides</title>
+    <link rel="stylesheet" href="styles/10kslides.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes">
+  </head>
+  <body>
+    <form action="/present#s0" method="post">
+      <header>
+        <h1>
+          <a href="/">10k Slides</a>
+          <span>Help</span>
+        </h1>
+      </header>
+
+      <nav>
+        <ul class="controls">
+          <li><button type="submit" class="control control--primary" id="presentButton">Present</button></li>
+          <li><a class="control" href="/unminified.html">Editor</a></li>
+        </ul>
+      </nav>
+
+      <textarea id="edit" contenteditable="false" name="editorText">
+10k Slides
+
+Help
+- Slide types are described below
+- Use these slides as a reference
+- View these examples with 'Present'
+
+Titles
+
+Slide Title
+Subtitle
+
+Text & Lists
+
+Text Slide Title
+Line 1
+Line 2
+Line 3
+
+List Title
+- List item 1
+- List item 2
+- List item 3
+
+Intermixed Items
+- Item 1
+- Item 2
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+- Item 3
+- Item 4
+
+Full bleed images
+
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (Parentheses denote alternate text. If the image doesn't load, the alternate text displays.)
+
+Galleries
+
+Gallery Title
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+http://s3-us-west-1.amazonaws.com/ape1/star.svg (A star)
+
+Code Snippets
+
+Slide Title
+  // Add two spaces to each line
+  let doubleThings = function (thing) {
+    return thing + thing;
+  };
+      </textarea>
+    </form>
+
+    <main id="present">
+    </main>
+
+    <script src="scripts/10kslides.js"></script>
+  </body>
+</html>
