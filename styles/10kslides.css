@@ -183,6 +183,11 @@ section h1 {
   max-height: 25vh;
 }
 
+/* End Slide */
+.slide--end {
+  background: #000;
+}
+
 /* Present Transitions */
 section {
   transform: translate3d(100%, 0, 0);
