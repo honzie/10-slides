@@ -37,25 +37,29 @@
     let slideHtml = document.createElement('section');
     let galleryHtml;
     let listHtml;
+    let codeHtml;
     let centerSlide = true;
 
     /**
-     * Closes and appends a gallery.
+     * Closes lists and blocks, optionally excepting the type passed in.
      */
-    let closeGallery = function () {
-      if (galleryHtml) {
+    let closeBlocks = function (exception) {
+      // Lists (set exception to 'list')
+      if (listHtml && exception !== 'list') {
+        slideHtml.appendChild(listHtml);
+        listHtml = undefined;
+      }
+
+      // Galleries (set exception to 'gallery')
+      if (galleryHtml && exception !== 'gallery') {
         slideHtml.appendChild(galleryHtml);
         galleryHtml = undefined;
       }
-    };
 
-    /**
-     * Closes and appends a list.
-     */
-    let closeList = function () {
-      if (listHtml) {
-        slideHtml.appendChild(listHtml);
-        listHtml = undefined;
+      // Code (set exception to 'code')
+      if (codeHtml && exception !== 'code') {
+        slideHtml.appendChild(codeHtml);
+        codeHtml = undefined;
       }
     };
 
@@ -66,22 +70,19 @@
       if (i === 0) {
         // The first line is a special case.
         if (isLineUrl(line)) {
-          let lineParts = line.split(' (');
-          let url = lineParts[0];
-          let text = lineParts[1].slice(0, lineParts[1].length - 1);
-
           // Case 1: The first line is a URL. If so, make this slide a full bleed image
           // Add the URL as text to support cases where the image doesn't load
+          let lineParts = line.split(' (');
           let lineHtml = document.createElement('p');
 
-          lineHtml.innerText = 'Image: ' + text;
+          lineHtml.innerText = lineParts[1].slice(0, lineParts[1].length - 1);
           slideHtml.appendChild(lineHtml);
 
           // Add the image as a full bleed background
           let imageHtml = document.createElement('div');
 
           imageHtml.classList.add('full-bleed');
-          imageHtml.style.backgroundImage = 'url(' + url + ')';
+          imageHtml.style.backgroundImage = 'url(' + lineParts[0] + ')';
 
           slideHtml.appendChild(imageHtml);
         } else {
@@ -95,10 +96,10 @@
         // For all other lines, there are several options:
         // 1. The text is a bullet: '-', '*', '- ', etc.
         // 2. The text is an image: and should be placed into a gallery
-        // 3. The text is a paragraph: and should be displayed unadorned
+        // 3. The text is code: '   var foobar;'
+        // 4. The text is a paragraph: and should be displayed unadorned
         if (line[0] === '-' || line[0] === '*') {
-          // Handle any lists galleries
-          closeGallery();
+          closeBlocks('list');
 
           // Instantiate the unordered list, if it's not there
           if (!listHtml) {
@@ -111,8 +112,7 @@
           lineHtml.innerText = line.slice(1).trim(); // Extra trim is necessary because the line may have been '- ...' or '-...'.
           listHtml.appendChild(lineHtml);
         } else if (isLineUrl(line)) {
-          // Handle any lists
-          closeList();
+          closeBlocks('gallery');
 
           // Instantiate the unordered list, if it's not there
           if (!galleryHtml) {
@@ -131,10 +131,22 @@
           lineHtml.appendChild(imageHtml);
 
           galleryHtml.appendChild(lineHtml);
+        } else if (slideLines[i].indexOf('  ') === 0) {
+          closeBlocks('code');
+
+          if (!codeHtml) {
+            codeHtml = document.createElement('pre');
+            centerSlide = false;
+          }
+
+          codeHtml.innerText += slideLines[i].slice(2) + '\n';
         } else {
-          // Handle any lists and galleries
-          closeList();
-          closeGallery();
+          closeBlocks();
+
+          // Don't center slides with multiple subtitles
+          if (i >= 2) {
+            centerSlide = false;
+          }
 
           let lineHtml = document.createElement('p');
 
@@ -144,9 +156,8 @@
       }
     }
 
-    // Handle any lists and galleries
-    closeList();
-    closeGallery();
+    // Handle any open lists or blocks
+    closeBlocks();
 
     // See if this is a main title or title slide
     if (centerSlide) {
