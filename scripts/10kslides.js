@@ -249,4 +249,9 @@
       keyCodeMap[event.keyCode]();
     }
   });
+
+  editText.addEventListener('input', function (event) {
+    // Save the text to local storage
+    window.localStorage.slideshow = editText.value;
+  });
 })();
